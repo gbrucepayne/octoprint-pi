@@ -12,10 +12,10 @@ services:
       - 80:80
     device_cgroup_rules:
       - 'c 188:* rw'
-      - 'c 81:* rw'
+      # - 'c 81:* rw'
     # devices:
       # - /dev/ttyUSB0:/dev/ttyUSB0
-      # - /dev/video0:/dev/video0
+      - /dev/video0:/dev/video0
     volumes:
       - ${HOME}/octoprint:/octoprint
       - /dev:/host/dev:ro
