@@ -4,6 +4,7 @@ services:
   octoprint:
     container_name: octoprint
     build:
+      context: ./
       args:
         - OCTOPRINT_BASE=octoprint/octoprint:latest
     # image: octoprint/octoprint
