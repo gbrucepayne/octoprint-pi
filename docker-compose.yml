@@ -14,7 +14,7 @@ services:
     device_cgroup_rules:
       - 'c 188:* rw'
       # - 'c 81:* rw'
-    # devices:
+    devices:
       # - /dev/ttyUSB0:/dev/ttyUSB0
       - /dev/video0:/dev/video0
     volumes:
