@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  octoprint:
+    container_name: octoprint
+    build:
+      args:
+        - OCTOPRINT_BASE=octoprint/octoprint:latest
+    # image: octoprint/octoprint
+    restart: unless-stopped
+    ports:
+      - 80:80
+    device_cgroup_rules:
+      - 'c 188:* rw'
+      - 'c 81:* rw'
+    # devices:
+      # - /dev/ttyUSB0:/dev/ttyUSB0
+      # - /dev/video0:/dev/video0
+    volumes:
+      - ${HOME}/octoprint:/octoprint
+      - /dev:/host/dev:ro
+    environment:
+      - TZ=Canada/Toronto
+      - ENABLE_MJPG_STREAMER=true
+      - MJPG_STREAMER_INPUT=-r 1152x648 -f 10
+      - CAMERA_DEV=/dev/video0
+
+  ####
+  # uncomment if you wish to edit the configuration files of octoprint
+  # refer to docs on configuration editing for more information
+  ####
+
+  #config-editor:
+  #  image: linuxserver/code-server
+  #  ports:
+  #    - 8443:8443
+  #  depends_on:
+  #    - octoprint
+  #  restart: unless-stopped
+  #  environment:
+  #    - PUID=0
+  #    - GUID=0
+  #    - TZ=America/Chicago
+  #  volumes:
+  #    - octoprint:/octoprint
