@@ -18,3 +18,14 @@ gpio=4=op,dl
 
 ## Dockerized OctoPrint
 
+After cloning the repository and changing to its directory,
+you can run the following commands:
+
+```
+sudo chmod 644 88-3DPrinter.rules
+sudo chown pi:pi 88-3DPrinter.rules
+sudo cp 88-3DPrinter.rules /etc/udev/rules.d
+```
+```
+sudo chmod 755 ~/octoprint-pi/octoprint/logs/printerDetect
+```
