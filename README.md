@@ -23,8 +23,9 @@ you can run the following commands:
 
 ```
 sudo chmod 644 88-3DPrinter.rules
-sudo chown pi:pi 88-3DPrinter.rules
+sudo chown root:root 88-3DPrinter.rules
 sudo cp 88-3DPrinter.rules /etc/udev/rules.d
+sudo udevadm control --reload-rules && sudo udevadm trigger
 ```
 ```
 sudo chmod 755 ~/octoprint-pi/octoprint/logs/printerDetect
