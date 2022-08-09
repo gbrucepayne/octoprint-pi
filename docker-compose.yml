@@ -18,8 +18,9 @@ services:
       # - /dev/ttyUSB0:/dev/ttyUSB0
       - /dev/video0:/dev/video0
     volumes:
-      - ${HOME}/octoprint:/octoprint
+      - ./:/octoprint
       - /dev:/host/dev:ro
+      - /sys:/sys
     environment:
       - TZ=Canada/Toronto
       - ENABLE_MJPG_STREAMER=true
