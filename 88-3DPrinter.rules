@@ -1,0 +1,6 @@
+# /etc/udev/rules.d/88-3DPrinter.rules
+VENDOR_ID="10c4"
+PRODUCT_ID="ea60"
+DEV_NAME="ttyANYCUBIC"
+ACTION=="add|change", SUBSYSTEM=="tty", ATTRS{idVendor}=="${VENDOR_ID}", ATTRS{idProduct}=="${PRODUCT_ID}", SYMLINK+="${DEV_NAME}", RUN+="/usr/bin/docker exec octoprint printerDetect ${DEV_NAME} video0"
+ACTION=="remove" SUBSYSTEM=="tty", ENV{ID_VENDOR_ID}=="${VENDOR_ID}", ENV{ID_MODEL_ID}=="${PRODUCT_ID}", RUN+="/usr/bin/docker exec octoprint printerDetect ${DEV_NAME} video0"
