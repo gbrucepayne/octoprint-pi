@@ -50,6 +50,8 @@ Follow the setup wizard:
         * **Depth (Y)** 405
         * **Height (Z)** 453
 6. Server Commands (TBC)
+    * **Restart Octoprint**
+    `redirfd -w 2 /dev/null s6-svscanctl -t /var/run/s6/services`
 7. Webcam & timelapse
     * **Stream URL** `/webcam/?action=stream`
     * **Snapshot URL** `http://localhost:8080/?action=snapshot`
@@ -76,4 +78,6 @@ Follow the setup wizard:
 3. Search for `PSU` and select the one from Shawn Bruce, then **Install**.
 4. Restart the container e.g. using SSH: `docker restart octoprint`
 5. Reload the page and acknowledge any Wizard setup required.
-6. Click **Settings** and select **PLUGINS/PSU Control**.
+6. Click **Settings** and select **PLUGINS/PSU Control**:
+    * **Switching** *Switching Method* `GPIO` with *On/Off GPIO Pin* `4`
+7. Click **Save**.
