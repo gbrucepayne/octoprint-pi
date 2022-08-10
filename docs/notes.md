@@ -2,9 +2,15 @@
 
 ## OctoPrint-PSUControl
 
-To work with a simple relay control, likely this repo needs to be forked and
-the following changes made:
+Since the **udev** dynamic allocation of `/dev/ttyANYCUBIC` causes a restart of
+the docker s6 services, the default behaviour of PSUControl plugin is to reset
+the state of the printer which would turns it back off.
+
+To work with a simple relay control that preserves the printer power state,
+likely this repo needs to be forked and the following changes made:
+
 * `configure_gpio` function in `octoprint_psucontrol/__init__.py`:
+
     ```
     if self.config['switchingMethod'] == 'GPIO':
         # original logic prior to try...
