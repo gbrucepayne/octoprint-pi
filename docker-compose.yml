@@ -17,10 +17,11 @@ services:
     devices:
       # - /dev/ttyUSB0:/dev/ttyUSB0
       - /dev/video0:/dev/video0
+      - /dev/gpiomem
     volumes:
       - ./:/octoprint
       - /dev:/host/dev:ro
-      - /sys:/sys
+      # - /sys:/sys
     environment:
       - TZ=Canada/Toronto
       - ENABLE_MJPG_STREAMER=true
