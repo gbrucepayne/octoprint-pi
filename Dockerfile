@@ -2,9 +2,11 @@
 ARG OCTOPRINT_BASE=octoprint/octoprint:latest
 # Download base image
 FROM $OCTOPRINT_BASE
+# install from wheel - tbd install dev instead?
 COPY custom_psucontrol /opt/custom_psucontrol
 RUN pip install --upgrade pip \
-    && pip install --no-index --find-links=/opt/custom_psucontrol/ octoprint_psucontrol
+    && cd /opt/custom_psucontrol/dist \
+    && pip install *.whl
 
 # re-reference supported arguments and copy to environment vars
 ARG OCTOPRINT_BASE
