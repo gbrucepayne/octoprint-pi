@@ -13,8 +13,9 @@ switched on or loses power.
 
 The following addition is made to `/boot/config.txt`:
 ```
-# 3D printer control via GPIO#4
-gpio=4=op,dl
+# 3D printer control
+gpio=5=op,dl
+gpio=6=ip,pd
 ```
 
 ## Dockerized OctoPrint
@@ -71,13 +72,18 @@ Follow the setup wizard:
 3. If necessary, flip horizontally and/or vertically.
 4. Click **Save**.
 
-## Install the PSU Plugin
+## Configure the PSU Plugin
 
+<!--
 1. Click the **Settings** menu bar item and select **OCTOPRINT/Plugin Manager**.
 2. Click *Get More*.
 3. Search for `PSU` and select the one from Shawn Bruce, then **Install**.
 4. Restart the container e.g. using SSH: `docker restart octoprint`
 5. Reload the page and acknowledge any Wizard setup required.
-6. Click **Settings** and select **PLUGINS/PSU Control**:
-    * **Switching** *Switching Method* `GPIO` with *On/Off GPIO Pin* `4`
-7. Click **Save**.
+-->
+1. Click **Settings** and select **PLUGINS/PSU Control**:
+    * **Switching** *Switching Method* `GPIO` with *On/Off GPIO Pin* `5`
+    * **Sensing** *Sensing Method* `GPIO` with
+    *Sensing GPIO Pin `6` as `Pull-Down`
+    * **Power Off Options** check *Disconnect on power off*.
+1. Click **Save**.
