@@ -94,6 +94,6 @@ does not place anything in `/octoprint/octoprint/plugins`...
 1. Click **Save**.
 1. SSH into the pi and issue the command:
     ```
-    cp ~/octoprint-pi/custom_psucontrol/__init__.py \
+    sudo cp ~/octoprint-pi/custom_psucontrol/__init__.py \
     ~/octoprint-pi/docker/plugins/lib/python3.8/site-packages/octoprint_psucontrol
     ```
