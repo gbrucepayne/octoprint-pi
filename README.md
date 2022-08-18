@@ -1,17 +1,23 @@
 # octoprint-pi
 
 A configuration setup for running OctoPrint on Rasbperry Pi.
-It enables powering on/off the 3D printer using GPIO control via a relay module.
+It enables powering on/off an ANYCUBIC 3D printer using GPIO control
+via a relay module.
 It also uses a Pi camera.
 
 ## GPIO Control
 
-The chosen setup was to use GPIO #4 (pin 7) as a dedicated output control for
-a simple relay module driving the normally open contact to close the hot wire
-of an AC power cord into the printer, which will default to OFF when the Pi is
-switched on or loses power.
+The chosen setup was to use GPIO #5 (pin 29) as a dedicated output control for
+a simple relay module, driving the Normally Open contact to close the hot wire
+of an AC power cord into the printer.
+This will default to OFF when the Pi is switched on or loses power.
 
-The following addition is made to `/boot/config.txt`:
+In order to preserve the state of the printer switch, we use GPIO #6 (pin 31)
+connected to GPIO #5, configured as an input with pull-down to avoid pulling
+the relay high inadvertently.
+
+The following addition is made to `/boot/config.txt` to set the printer OFF
+when the Pi powers up:
 ```
 # 3D printer control
 gpio=5=op,dl
@@ -33,8 +39,14 @@ sudo cp 88-3DPrinter.rules /etc/udev/rules.d
 sudo udevadm control --reload-rules && sudo udevadm trigger
 ```
 ```
-sudo chmod 755 ~/octoprint-pi/octoprint/logs/printerDetect
+mkdir -p ~/octoprint-pi/docker/octoprint/logs/printerDetect
+sudo chmod 755 ~/octoprint-pi/docker/octoprint/logs/printerDetect
 ```
+
+## Restore from Backup
+
+If you have a backup zip saved, you can import your prior settings.
+Otherwise, proceed through step-by-step configuration.
 
 ## Configure the printer and camera
 
@@ -74,26 +86,13 @@ Follow the setup wizard:
 
 ## Configure the PSU Plugin
 
-Installing local/custom plugins for Octoprint running in Docker is non-trivial
-as the directory structure is convoluted relative to the base OctoPrint
-documentation.
->Docker seems to create `/octoprint/octprint` and `/octoprint/plugins` where
-installing via the plugin manager creates `/octoprint/plugins/lib/python*` but
-does not place anything in `/octoprint/octoprint/plugins`...
+The `Dockerfile` should pre-install the **PSU Control** plugin that has been
+modified to work with this project controlling the printer ON/OFF using a relay
+connected to 2 GPIO ports on the Pi.
 
-1. Click the **Settings** menu bar item and select **OCTOPRINT/Plugin Manager**.
-1. Click *Get More*.
-1. Search for `PSU` and select the one from Shawn Bruce, then **Install**.
-1. Restart the container e.g. using SSH: `docker restart octoprint`
-1. Reload the page and acknowledge any Wizard setup required.
 1. Click **Settings** and select **PLUGINS/PSU Control**:
     * **Switching** *Switching Method* `GPIO` with *On/Off GPIO Pin* `5`
     * **Sensing** *Sensing Method* `GPIO` with
     *Sensing GPIO Pin `6` as `Pull-Down`
     * **Power Off Options** check *Disconnect on power off*.
-1. Click **Save**.
-1. SSH into the pi and issue the command:
-    ```
-    sudo cp ~/octoprint-pi/custom_psucontrol/__init__.py \
-    ~/octoprint-pi/docker/plugins/lib/python3.8/site-packages/octoprint_psucontrol
-    ```
+2. Click **Save**.

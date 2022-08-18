@@ -25,3 +25,6 @@ an OctoPrint restart i.e. don't turn it off it it's already on
 * Use the initial state from `sense` to set the initial output of `switch`
 * Ensure in **`turn_psu_off`** that the printer is disconnected before removing
 power, to avoid crashing OctoPrint and getting into an ugly state
+
+The forked repo can be found [here](https://github.com/gbrucepayne/OctoPrint-PSUControl)
+in the **dynamic-serial** branch.
