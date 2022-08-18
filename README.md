@@ -74,16 +74,26 @@ Follow the setup wizard:
 
 ## Configure the PSU Plugin
 
-<!--
+Installing local/custom plugins for Octoprint running in Docker is non-trivial
+as the directory structure is convoluted relative to the base OctoPrint
+documentation.
+>Docker seems to create `/octoprint/octprint` and `/octoprint/plugins` where
+installing via the plugin manager creates `/octoprint/plugins/lib/python*` but
+does not place anything in `/octoprint/octoprint/plugins`...
+
 1. Click the **Settings** menu bar item and select **OCTOPRINT/Plugin Manager**.
-2. Click *Get More*.
-3. Search for `PSU` and select the one from Shawn Bruce, then **Install**.
-4. Restart the container e.g. using SSH: `docker restart octoprint`
-5. Reload the page and acknowledge any Wizard setup required.
--->
+1. Click *Get More*.
+1. Search for `PSU` and select the one from Shawn Bruce, then **Install**.
+1. Restart the container e.g. using SSH: `docker restart octoprint`
+1. Reload the page and acknowledge any Wizard setup required.
 1. Click **Settings** and select **PLUGINS/PSU Control**:
     * **Switching** *Switching Method* `GPIO` with *On/Off GPIO Pin* `5`
     * **Sensing** *Sensing Method* `GPIO` with
     *Sensing GPIO Pin `6` as `Pull-Down`
     * **Power Off Options** check *Disconnect on power off*.
 1. Click **Save**.
+1. SSH into the pi and issue the command:
+    ```
+    cp ~/octoprint-pi/custom_psucontrol/__init__.py \
+    ~/octoprint-pi/docker/plugins/lib/python3.8/site-packages/octoprint_psucontrol
+    ```
