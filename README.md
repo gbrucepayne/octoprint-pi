@@ -83,9 +83,9 @@ Follow the setup wizard:
 5. Default printer profile
     1. **General**: `ANYCUBIC S3 Mega Pro`
     2. **Print bed**:
-        * **Width (X)** 410
-        * **Depth (Y)** 405
-        * **Height (Z)** 453
+        * **Width (X)** 210
+        * **Depth (Y)** 210
+        * **Height (Z)** 205
 6. Server Commands (TBC)
     * **Restart Octoprint**
     `redirfd -w 2 /dev/null s6-svscanctl -t /var/run/s6/services`
