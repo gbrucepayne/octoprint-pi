@@ -19,7 +19,7 @@ services:
       - /dev/video0:/dev/video0
       - /dev/gpiochip0
     volumes:
-      - $HOME/octoprint:/octoprint
+      - ./octoprint:/octoprint/octoprint
       - /dev:/host/dev:ro
       # - /sys:/sys
     environment:
