@@ -3,6 +3,7 @@ ARG OCTOPRINT_BASE=octoprint/octoprint:latest
 # Download base image
 FROM $OCTOPRINT_BASE
 # install from wheel - tbd install dev instead?
+WORKDIR /octoprint
 COPY plugins /octoprint/plugins
 COPY requirements.txt .
 RUN pip install --upgrade pip \
