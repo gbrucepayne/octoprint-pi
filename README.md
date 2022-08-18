@@ -12,11 +12,11 @@ a simple relay module, driving the Normally Open contact to close the hot wire
 of an AC power cord into the printer.
 This will default to OFF when the Pi is switched on or loses power.
 
-In order to preserve the state of the printer switch, we use GPIO #6 (pin 31)
-connected to GPIO #5, configured as an input with pull-down to avoid pulling
-the relay high inadvertently.
+In order to preserve the state of the printer switch after an OctoPrint restart,
+we use GPIO #6 (pin 31) connected to GPIO #5 configured as an input,
+with pull-down to avoid turning on the printer accidentally.
 
-The following addition is made to `/boot/config.txt` to set the printer OFF
+The following settings in `/boot/config.txt` set the printer OFF
 when the Pi powers up:
 ```
 # 3D printer control
@@ -24,24 +24,48 @@ gpio=5=op,dl
 gpio=6=ip,pd
 ```
 
-## Dockerized OctoPrint
+## Prerequisites
 
-After cloning the repository and changing to its directory,
-you can run the following commands:
+You must have **git**, **docker** and **docker-compose** installed on the Pi.
+```
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+sudo usermod -aG docker $USER
+newgrp docker
+sudo apt update && sudo apt install -y git libffi-dev libssl-dev python3-dev
+sudo pip install docker-compose
+```
 
-```
-docker-compose up -d --build
-```
-```
-sudo chmod 644 88-3DPrinter.rules
-sudo chown root:root 88-3DPrinter.rules
-sudo cp 88-3DPrinter.rules /etc/udev/rules.d
-sudo udevadm control --reload-rules && sudo udevadm trigger
-```
-```
-mkdir -p ~/octoprint-pi/docker/octoprint/logs/printerDetect
-sudo chmod 755 ~/octoprint-pi/docker/octoprint/logs/printerDetect
-```
+## Installation
+
+1. Clone the repository and change into its directory:
+    ```
+    git clone https://github.com/gbrucepayne/octoprint-pi && cd octoprint-pi
+    ```
+
+2. Run the GPIO boot config script:
+    ```
+    sudo bash config.sh
+    ```
+
+3. Build the docker container:
+    ```
+    docker-compose up -d --build
+    ```
+
+4. Enable access to the **printerDetect** logs
+    ```
+    mkdir -p ~/octoprint-pi/docker/octoprint/logs/printerDetect
+    sudo chmod 755 ~/octoprint-pi/docker/octoprint/logs/printerDetect
+    ```
+
+3. Setup permissions and copy `udev` host rules:
+    ```
+    sudo chmod 644 88-3DPrinter.rules
+    sudo chown root:root 88-3DPrinter.rules
+    sudo cp 88-3DPrinter.rules /etc/udev/rules.d
+    sudo udevadm control --reload-rules && sudo udevadm trigger
+    ```
 
 ## Restore from Backup
 
