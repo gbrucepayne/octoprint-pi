@@ -10,9 +10,8 @@ ENV OCTOPRINT_BASE=${OCTOPRINT_BASE}
 # install plugins
 ENV PIP_USER false
 RUN pip install \
-    "https://github.com/kantlivelong/OctoPrint-PSUControl/archive/master.zip"
+    "https://github.com/gbrucepayne/OctoPrint-PSUControl/archive/dynamic-serial.zip"
 
 # copy extra files to image
 COPY mjpgStreamer.sh /etc/services.d/mjpg-streamer/run
 COPY printerDetect.sh /usr/local/bin/printerDetect
-COPY custom_psucontrol/__init__.py /octoprint/plugins/lib/python3.8/site-packages/octoprint_psucontrol
